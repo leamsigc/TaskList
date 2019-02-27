@@ -1,0 +1,17 @@
+{
+	"name": "interviewtask",
+	"version": "1.0.0",
+	"description": "Task for the Front-End Developer Interview",
+	"main": "app.js",
+	"scripts": {
+		"start": "node src/app.js",
+		"dev": "nodemon src/app.js"
+	},
+	"author": "Ismael Garcia",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"express": "^4.16.4",
+		"pug": "^2.0.3"
+	}
+}
