@@ -16,11 +16,11 @@ html(lang="en")
             each task,index in tasks 
                 if !task.done
                     li(id=task.timeStamp)= task.name
-                        input.status( type="checkbox" name="done" checked=task.done)
+                        input.delete( type="checkbox" name="done" checked=task.done)
         h3.title Complete tasks
         ul(data-js='done-task')
             each task,index in tasks 
                 if task.done
                     li #{task.name}
-                        input.status(type="checkbox", name="done" checked=task.done)
-        script(src="js/Es6.js")
+                        input.delete(type="checkbox", name="done" checked=task.done)
+        script(src="js/simple.js")

@@ -8,7 +8,7 @@
 	doneTask.addEventListener('click', moveTask);
 
 	function moveTask(e) {
-		let clickElement = e.target.className.includes('status');
+		let clickElement = e.target.className.includes('delete');
 		if (clickElement) {
 			if (e.target.checked) {
 				displayNewTask(e.target.parentNode, true);
@@ -65,7 +65,7 @@
 			li.appendChild(taskText);
 			let checkBox = document.createElement('input');
 			checkBox.setAttribute('type', 'checkbox');
-			checkBox.className = 'status';
+			checkBox.className = 'delete';
 			li.appendChild(checkBox);
 			parentElement.appendChild(li);
 		}
