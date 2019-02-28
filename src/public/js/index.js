@@ -1,10 +1,10 @@
 (function() {
 	const form = document.querySelector('[data-js=newTaskForm]');
-	const taskTodo = document.querySelector('[data-js=display-task]');
+	const displayTask = document.querySelector('[data-js=display-task]');
 	const doneTask = document.querySelector('[data-js=done-task]');
 
 	form.addEventListener('submit', addTask);
-	taskTodo.addEventListener('click', moveTask);
+	displayTask.addEventListener('click', moveTask);
 	doneTask.addEventListener('click', moveTask);
 
 	function moveTask(e) {
@@ -13,7 +13,7 @@
 			if (e.target.checked) {
 				displayNewTask(e.target.parentNode, true);
 			} else {
-				taskTodo.appendChild(e.target.parentNode);
+				displayTask.appendChild(e.target.parentNode);
 			}
 		} else {
 			return;
@@ -23,8 +23,8 @@
 		e.preventDefault();
 		const formElements = this.elements;
 		const newTask = formElements['newTask'].value;
-		if (newTask === '') {
-			displayError('Enter a new node please', 'danger');
+		if (!newTask) {
+			displayMessage('Enter a new task please', 'danger');
 			return false;
 		}
 		const data = {
@@ -37,7 +37,6 @@
 	}
 
 	function sendTask(value) {
-		console.log(value);
 		fetch('/addTask', {
 			method: 'POST',
 			headers: {
@@ -48,7 +47,7 @@
 		})
 			.then(res => res.json())
 			.then(data => {
-				// console.log(data);
+				displayMessage('Task added successfully', 'success');
 				displayNewTask(value, false);
 			});
 	}
@@ -70,7 +69,7 @@
 			parentElement.appendChild(li);
 		}
 	}
-	function displayError(error, cssClass) {
+	function displayMessage(error, cssClass) {
 		let p = document.createElement('p');
 		p.className = cssClass;
 		const text = document.createTextNode(error);
@@ -79,7 +78,7 @@
 		parent.insertBefore(p, form);
 
 		setTimeout(() => {
-			document.querySelector('.danger').remove();
+			document.querySelector(`.${cssClass}`).remove();
 		}, 3000);
 	}
 })();
