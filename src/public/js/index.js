@@ -2,7 +2,8 @@
 	const form = document.querySelector('[data-js=newTaskForm]');
 	const displayTask = document.querySelector('[data-js=display-task]');
 	const doneTask = document.querySelector('[data-js=done-task]');
-
+	const toggleModal = document.querySelector('[data-js=toggle-modal]');
+	toggleModal.addEventListener('click', toggleModalStatus);
 	form.addEventListener('submit', addTask);
 	displayTask.addEventListener('click', moveTask);
 	doneTask.addEventListener('click', moveTask);
@@ -33,6 +34,7 @@
 			timeStamp: Date.now()
 		};
 		sendTask(data);
+		toggleModalStatus();
 		this.reset();
 	}
 
@@ -80,5 +82,9 @@
 		setTimeout(() => {
 			document.querySelector(`.${cssClass}`).remove();
 		}, 3000);
+	}
+	function toggleModalStatus() {
+		const modalContainer = document.querySelector('.modal');
+		modalContainer.classList.toggle('is-active');
 	}
 })();

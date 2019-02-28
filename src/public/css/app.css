@@ -42,6 +42,7 @@ body {
 	right: 20px;
 	width: 60px;
 	height: 60px;
+	z-index: 200;
 }
 .open--modal {
 	width: 60px;
