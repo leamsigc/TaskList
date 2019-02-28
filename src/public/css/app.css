@@ -11,3 +11,51 @@ body {
 body {
 	text-align: center;
 }
+
+.task--container {
+	position: relative;
+	border-radius: 5px;
+	box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.5);
+}
+.task--not-completed {
+	min-height: 80vh;
+	background: #eee;
+	padding: 2rem;
+	border-radius: 5px 0 0 5px;
+}
+.task--completed {
+	padding: 2rem;
+	height: 100%;
+	background: #fff;
+	border-radius: 0 5px 5px 0;
+}
+.task--item {
+	background: #44474675;
+	color: #fff;
+	padding: 0.5rem 0;
+	margin-bottom: 0.5rem;
+	border-radius: 4px;
+}
+.btn--open__modal {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 60px;
+	height: 60px;
+}
+.open--modal {
+	width: 60px;
+	height: 60px;
+	/* line-height: 30px; */
+	background: hsl(171, 100%, 41%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	outline: none;
+	border-color: transparent;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: bold;
+	font-size: 1.3rem;
+	padding: 0;
+}
