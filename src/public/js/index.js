@@ -3,6 +3,8 @@
 	const displayTask = document.querySelector('[data-js=display-task]');
 	const doneTask = document.querySelector('[data-js=done-task]');
 	const toggleModal = document.querySelector('[data-js=toggle-modal]');
+	const closeModal = document.querySelector('.modal-close');
+	closeModal.addEventListener('click',toggleModalStatus)
 	toggleModal.addEventListener('click', toggleModalStatus);
 	form.addEventListener('submit', addTask);
 	displayTask.addEventListener('click', moveTask);
@@ -60,7 +62,7 @@
 		} else {
 			const parentElement = document.querySelector('[data-js=display-task]');
 			const li = document.createElement('li');
-			li.className = 'task--items';
+			li.className = 'task--item';
 			li.id = newTask.timeStamp;
 			const taskText = document.createTextNode(newTask.name);
 			li.appendChild(taskText);
