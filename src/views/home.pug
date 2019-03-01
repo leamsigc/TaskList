@@ -27,6 +27,7 @@ html(lang="en")
                     .column
                         .task--completed
                             h3.subtitle.has-text-primary.has-text-centered.has-text-weight-bold COMPLETED TASK
+                                button.button.is-danger.is-small.is-outlined.is-rounded(data-js='task--remove-all') Remove all
                             ul.has-text-dark(data-js='display--done')
                                 each task,index in tasks 
                                     if task.done

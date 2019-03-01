@@ -23,6 +23,9 @@ class UI {
 	addTaskTodo(newTask, selector = 'not--done') {
 		const li = document.createElement('li');
 		const displayTask = document.querySelector(`[data-js=display--${selector}]`);
+		if (document.getElementById(`${newTask.time}`)) {
+			document.getElementById(`${newTask.time}`).remove();
+		}
 		li.id = newTask.time;
 		li.className = 'task--item';
 		li.innerHTML = `
@@ -37,9 +40,14 @@ class UI {
 	}
 	deleteTask(target) {
 		if (target.classList.contains('is-danger') || target.classList.contains('is-info')) {
-			target.parentElement.remove();
-			this.displayMessage('God job you have complete another task today', 'success');
+			console.log(target.parentElement.id);
+			document.getElementById(`${target.parentElement.id}`).remove();
+			// this.displayMessage('God job you have complete another task today', 'success');
 		}
+	}
+	removeDoneTask() {
+		const displayTask = document.querySelector(`[data-js=display--done]`);
+		displayTask.innerHTML = '';
 	}
 }
 
@@ -73,9 +81,6 @@ class Store {
 	static removeTaskFromLocalStorage(time) {
 		const allTasks = Store.getAllTasks();
 
-		// const newTaskList = allTasks.filter(task => {
-		// 	return task.time === Number(time);
-		// });
 		const newTaskList = allTasks.map(item => {
 			if (item.time === Number(time)) {
 				item.done = !item.done;
@@ -85,6 +90,13 @@ class Store {
 		});
 		localStorage.setItem('tasks', JSON.stringify(newTaskList));
 		this.displayTasks();
+	}
+	static removeAllCompletedTasks() {
+		const allTasks = Store.getAllTasks();
+		const removeAllTaskDone = allTasks.filter(task => !task.done);
+
+		localStorage.setItem('tasks', JSON.stringify(removeAllTaskDone));
+		// this.displayTasks();
 	}
 }
 
@@ -113,27 +125,37 @@ function removeTask(e) {
 
 	let info = e.target.classList.contains('is-info');
 	let danger = e.target.classList.contains('is-danger');
-	// console.log(info, danger);
+
 	if (!info && !danger) return;
 	const ui = new UI();
+
 	//delete todo
 	ui.deleteTask(e.target);
+
 	//remove task From local storage
 	Store.removeTaskFromLocalStorage(e.target.parentElement.id);
-	//display success message
-	// ui.displayMessage('You have remove the task Successfully...', 'success');
+	s;
 }
 function toggleModal() {
 	const modal = document.querySelector('.modal');
-
 	modal.classList.toggle('is-active');
 }
+function removeAllCompleteTasks() {
+	const ui = new UI();
+
+	Store.removeAllCompletedTasks();
+	ui.removeDoneTask();
+	ui.displayMessage('You have remove all the completed tasks', 'success');
+}
 const taskForm = document.querySelector('[data-js=newTaskForm]');
-taskForm.addEventListener('submit', addTask);
 const taskDisplayList = document.querySelector('[data-js=display--not--done]');
 const taskDisplayListDone = document.querySelector('[data-js=display--done]');
 const ButtonToggleModal = document.querySelector('[data-js=toggle-modal]');
+const ButtonRemoveAllTask = document.querySelector('[data-js=task--remove-all]');
+
+taskForm.addEventListener('submit', addTask);
 ButtonToggleModal.addEventListener('click', toggleModal);
+ButtonRemoveAllTask.addEventListener('click', removeAllCompleteTasks);
 taskDisplayList.addEventListener('click', removeTask);
 taskDisplayListDone.addEventListener('click', removeTask);
 window.addEventListener('DOMContentLoaded', function() {

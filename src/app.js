@@ -17,17 +17,17 @@ app.use(express.static(__dirname + '/public'));
 //task array
 let tasks = [
 	{
-		name: 'do the dishes',
+		name: 'Wash the dishes',
 		done: false,
 		timeStamp: Date.now() + 1
 	},
 	{
-		name: 'do the cats',
+		name: 'Feed the cats',
 		done: true,
 		timeStamp: Date.now() + 2
 	},
 	{
-		name: 'do the dogs',
+		name: 'Take the dog to the park',
 		done: false,
 		timeStamp: Date.now() + 3
 	}
