@@ -15,22 +15,24 @@ html(lang="en")
                     .btn--open__modal
                         button.open--modal(data-js='toggle-modal')
                             span   &#43;
-                    .column.is-4
+                    .column.is-5
                         .task--not-completed 
                             h2.subtitle.has-text-primary.has-text-centered.has-text-weight-bold TASK LIST
-                            ul.has-text-dark(data-js='display-task') 
+                            ul.has-text-dark(data-js='display--not--done') 
                                 each task,index in tasks 
                                     if !task.done
-                                        li.task--item(id=task.timeStamp data-status=`${task.done}`)= task.name
-                                            input.delete( type="checkbox" name="done" checked=task.done)
+                                        li.task--item(id=task.timeStamp data-status=`${task.done}`)
+                                            span.task--text=task.name
+                                            span.tag.is-danger.is-small delete 
                     .column
                         .task--completed
                             h3.subtitle.has-text-primary.has-text-centered.has-text-weight-bold COMPLETED TASK
-                            ul(type='1').has-text-dark(data-js='done-task')
+                            ul.has-text-dark(data-js='display--done')
                                 each task,index in tasks 
                                     if task.done
-                                        li.task--item(id=task.timeStamp data-status=`${task.done}`)= task.name
-                                            input.delete.is-medium(type="checkbox", name="done" checked=task.done)
+                                        li.task--item(id=task.timeStamp data-status=`${task.done}`)
+                                            span.task--text=task.name
+                                            span.tag.is-info.is-small   res-post
         .modal
                 .modal-background
                 .modal-content

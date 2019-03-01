@@ -19,22 +19,27 @@ body {
 }
 .task--not-completed {
 	min-height: 80vh;
-	background: #eee;
 	padding: 2rem;
+	background: #fff;
 	border-radius: 5px 0 0 5px;
 }
 .task--completed {
 	padding: 2rem;
 	height: 100%;
-	background: #fff;
+	background: #eee;
 	border-radius: 0 5px 5px 0;
 }
 .task--item {
+	display: flex;
+	justify-content: space-between;
 	background: #44474675;
 	color: #fff;
-	padding: 0.5rem 0;
+	padding: 0.5rem 0.5rem;
 	margin-bottom: 0.5rem;
 	border-radius: 4px;
+}
+.task--item .tag {
+	cursor: pointer;
 }
 .btn--open__modal {
 	position: absolute;
@@ -59,4 +64,14 @@ body {
 	font-weight: bold;
 	font-size: 1.3rem;
 	padding: 0;
+}
+
+.danger {
+	color: red;
+	background: #eee;
+	z-index: 50;
+}
+.success {
+	color: #333;
+	background: aqua;
 }

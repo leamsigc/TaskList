@@ -19,28 +19,39 @@ let tasks = [
 	{
 		name: 'do the dishes',
 		done: false,
-		timeStamp: Date.now()
+		timeStamp: Date.now() + 1
 	},
 	{
 		name: 'do the cats',
 		done: true,
-		timeStamp: Date.now()
+		timeStamp: Date.now() + 2
 	},
 	{
 		name: 'do the dogs',
 		done: false,
-		timeStamp: Date.now()
+		timeStamp: Date.now() + 3
 	}
 ];
 //GET HOME PAGE
 app.get('/', (req, res) => {
 	res.render('home.pug', { tasks: tasks });
 });
-
+//add task
 app.post('/addTask', (req, res) => {
 	let newTask = req.body;
 	tasks.push(newTask);
 	res.send({ status: 200 });
+});
+
+app.post('/taskUpdate', (req, res) => {
+	const taskId = req.body.id;
+
+	tasks.map(item => {
+		if (item.timeStamp == parseInt(taskId)) {
+			item.done = !item.done;
+		}
+	});
+	res.json({ status: 200 });
 });
 app.listen(PORT, () => {
 	console.log(`Server started on port:${PORT}`);
