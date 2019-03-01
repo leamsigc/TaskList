@@ -12,7 +12,7 @@ class UI {
 		p.className = cssClass;
 		p.appendChild(document.createTextNode(message));
 
-		const brotherElement = document.querySelector('[data-js=newTaskForm]');
+		const brotherElement = document.querySelector('.task--container');
 		const parent = brotherElement.parentElement;
 		parent.insertBefore(p, brotherElement);
 
@@ -20,14 +20,15 @@ class UI {
 			document.querySelector(`.${cssClass}`).remove();
 		}, 3000);
 	}
-	addTaskTodo(newTask) {
+	addTaskTodo(newTask, selector = 'not--done') {
 		const li = document.createElement('li');
-		const displayTask = document.querySelector('[data-js=display-task]');
+		const displayTask = document.querySelector(`[data-js=display--${selector}]`);
 		li.id = newTask.time;
+		li.className = 'task--item';
 		li.innerHTML = `
 			${newTask.task}
 			<br>
-			<input type='checkbox' ${newTask.done ? 'checked' : ''} class='delete'>
+			<span class=' tag is-small ${newTask.done ? 'is-info' : 'is-danger'}'>${newTask.done ? 're-post' : 'delete'}</span>
 		`;
 		displayTask.appendChild(li);
 	}
@@ -35,7 +36,7 @@ class UI {
 		document.querySelector('[data-js=newTaskForm]').reset();
 	}
 	deleteTask(target) {
-		if (target.classList.contains('delete')) {
+		if (target.classList.contains('is-danger') || target.classList.contains('is-info')) {
 			target.parentElement.remove();
 			this.displayMessage('God job you have complete another task today', 'success');
 		}
@@ -61,16 +62,29 @@ class Store {
 		const ui = new UI();
 		const allTasks = Store.getAllTasks();
 
-		allTasks.map(task => ui.addTaskTodo(task));
+		allTasks.map(task => {
+			if (task.done) {
+				ui.addTaskTodo(task, 'done');
+			} else {
+				ui.addTaskTodo(task);
+			}
+		});
 	}
 	static removeTaskFromLocalStorage(time) {
 		const allTasks = Store.getAllTasks();
-		console.log(Number(time));
 
-		const newTaskList = allTasks.filter(task => {
-			return task.time === Number(time);
+		// const newTaskList = allTasks.filter(task => {
+		// 	return task.time === Number(time);
+		// });
+		const newTaskList = allTasks.map(item => {
+			if (item.time === Number(time)) {
+				item.done = !item.done;
+				return item;
+			}
+			return item;
 		});
 		localStorage.setItem('tasks', JSON.stringify(newTaskList));
+		this.displayTasks();
 	}
 }
 
@@ -92,11 +106,15 @@ function addTask(e) {
 	Store.addTaskToLocalStorage(newTask);
 	ui.displayMessage('Good job you jus added another task', 'success');
 	ui.resetForm();
+	toggleModal();
 }
 function removeTask(e) {
 	e.preventDefault();
-	// console.log(e.target);
-	if (!e.target.classList.contains('delete')) return;
+
+	let info = e.target.classList.contains('is-info');
+	let danger = e.target.classList.contains('is-danger');
+	// console.log(info, danger);
+	if (!info && !danger) return;
 	const ui = new UI();
 	//delete todo
 	ui.deleteTask(e.target);
@@ -105,11 +123,19 @@ function removeTask(e) {
 	//display success message
 	// ui.displayMessage('You have remove the task Successfully...', 'success');
 }
+function toggleModal() {
+	const modal = document.querySelector('.modal');
 
+	modal.classList.toggle('is-active');
+}
 const taskForm = document.querySelector('[data-js=newTaskForm]');
 taskForm.addEventListener('submit', addTask);
-const taskDisplayList = document.querySelector('[data-js=display-task]');
+const taskDisplayList = document.querySelector('[data-js=display--not--done]');
+const taskDisplayListDone = document.querySelector('[data-js=display--done]');
+const ButtonToggleModal = document.querySelector('[data-js=toggle-modal]');
+ButtonToggleModal.addEventListener('click', toggleModal);
 taskDisplayList.addEventListener('click', removeTask);
+taskDisplayListDone.addEventListener('click', removeTask);
 window.addEventListener('DOMContentLoaded', function() {
 	Store.displayTasks();
 });
